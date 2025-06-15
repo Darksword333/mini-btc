@@ -17,7 +17,7 @@ const Block& Blockchain::getLastBlock() const {
 
 void Blockchain::print() const {
     for (const Block& block : chain) {
-        block.print();
         std::cout << "----------------------\n";
+        block.print();
     }
 }

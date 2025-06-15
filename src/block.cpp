@@ -39,9 +39,9 @@ std::string Block::computeHash() const {
 }
 
 void Block::print() const {
-    std::cout << "Index: " << index << "-"
-              << "Data: " << data << "-"
-              << "Previous Hash: " << previousHash << "-"
-              << "Hash: " << hash << "-"
+    std::cout << "Index: " << index << "\n"
+              << "Data: " << data << "\n"
+              << "Previous Hash: " << previousHash << "\n"
+              << "Hash: " << hash << "\n"
               << "Timestamp: " << timestamp << "\n";
 }

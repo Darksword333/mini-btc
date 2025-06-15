@@ -1,4 +1,5 @@
 #include "blockchain.hpp"
+#include "transaction.hpp"
 
 int main(void){
     Blockchain blockchain;
@@ -10,6 +11,9 @@ int main(void){
 
     // Affichage de la chaîne de blocs
     blockchain.print();
+
+    Transaction tx("clef_publique_A", "clef_publique_B", 42.0);
+    tx.print();
 
     return 0;
 }
