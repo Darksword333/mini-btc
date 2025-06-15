@@ -14,6 +14,10 @@ struct Block {
     Block(int idx, const std::string& data, const std::string& prevHash);
 
     std::string computeHash() const;
+    void print() const;
+
+    int getIndex() const;
+    std::string getHash() const;
 };
 
 #endif // BLOCK_HPP
