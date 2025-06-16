@@ -1,19 +1,22 @@
 #include "blockchain.hpp"
 #include "transaction.hpp"
+#include "keypair.hpp"
 
 int main(void){
     Blockchain blockchain;
+    KeyPair key1;
+    KeyPair key2;
 
-    // Ajout de quelques blocs
-    blockchain.addBlock("Transaction A -> B: 10 BTC");
-    blockchain.addBlock("Transaction B -> C: 5 BTC");
-    blockchain.addBlock("Transaction C -> A: 2 BTC");
+    std::string from = key1.getPublicKey();
+    std::string to = key2.getPublicKey();
 
-    // Affichage de la chaîne de blocs
-    blockchain.print();
+    Transaction tx(from, to, 10.0);
+    std::string txData = "Transaction " + from + " -> " + to + " : 10 BTC";
 
-    Transaction tx("clef_publique_A", "clef_publique_B", 42.0);
+    blockchain.addBlock(txData);
+
     tx.print();
+    blockchain.print();
 
     return 0;
 }
