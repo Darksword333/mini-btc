@@ -1,4 +1,5 @@
 #include "blockchain.hpp"
+#include "transaction.hpp"
 #include <iostream>
 
 Blockchain::Blockchain() {
@@ -20,4 +21,11 @@ void Blockchain::print() const {
         std::cout << "----------------------\n";
         block.print();
     }
+}
+
+void Blockchain::addTransaction(const Transaction& tx) {
+    std::string data = "Transaction: From: " + tx.getFrom()
+                     + " To: " + tx.getTo()
+                     + " Amount: " + std::to_string(tx.getAmount());
+    addBlock(data);
 }

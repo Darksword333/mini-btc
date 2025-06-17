@@ -2,21 +2,16 @@
 #include "transaction.hpp"
 #include "keypair.hpp"
 
-int main(void){
+int main() {
     Blockchain blockchain;
     KeyPair key1;
     KeyPair key2;
 
-    std::string from = key1.getPublicKey();
-    std::string to = key2.getPublicKey();
+    Transaction tx(key1.getPublicKey(), key2.getPublicKey(), 10.0);
+    blockchain.addTransaction(tx);
 
-    Transaction tx(from, to, 10.0);
-    std::string txData = "Transaction " + from + " -> " + to + " : 10 BTC";
-
-    blockchain.addBlock(txData);
-
-    tx.print();
     blockchain.print();
 
     return 0;
 }
+
