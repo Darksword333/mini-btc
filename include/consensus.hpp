@@ -1,0 +1,7 @@
+#ifndef CONSENSUS_HPP
+#define CONSENSUS_HPP
+
+#define COIN_MAX = 1 000 000
+#define TRANSACTION_PER_BLOCK = 100
+
+#endif // CONSENSUS_HPP
