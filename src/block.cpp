@@ -21,7 +21,7 @@ std::string Block::getHash() const {
 
 // Fonction qui calcule un "hash" simplifié avec XOR bit à bit sur chaque caractère
 std::string Block::computeHash() const {
-    std::string fullData = std::to_string(index) + data + previousHash + std::to_string(timestamp);
+    std::string fullData = std::to_string(index) + data + previousHash + std::to_string(timestamp) + std::to_string(nonce);
 
     std::string hashHex;
     hashHex.reserve(fullData.size() * 2);
@@ -37,6 +37,24 @@ std::string Block::computeHash() const {
 
     return hashHex;
 }
+
+void Block::mineBlock(int difficulty) {
+    nonce = 0;
+    while (true) {
+        hash = computeHash();
+        bool valid = true;
+        for (int i = 0; i < difficulty; ++i) {
+            if (hash[i] != '0') {
+                valid = false;
+                break;
+            }
+        }
+        if (valid) break;
+        ++nonce;
+    }
+    std::cout << "Block mined: " << hash << " (nonce = " << nonce << ")\n";
+}
+
 
 void Block::print() const {
     std::cout << "Index: " << index << "\n"

@@ -8,6 +8,7 @@
 class Blockchain {
 private:
     std::vector<Block> chain;
+    std::vector<Transaction> mempool;
 
 public:
     Blockchain(); // crée le bloc genesis
@@ -15,5 +16,6 @@ public:
     const Block& getLastBlock() const;
     void print() const;
     void addTransaction(const Transaction& tx);
+    void minePendingTransactions(size_t maxTx = 5);
 };
 #endif // BLOCKCHAIN_HPP

@@ -24,8 +24,26 @@ void Blockchain::print() const {
 }
 
 void Blockchain::addTransaction(const Transaction& tx) {
-    std::string data = "Transaction: From: " + tx.getFrom()
-                     + " To: " + tx.getTo()
-                     + " Amount: " + std::to_string(tx.getAmount());
-    addBlock(data);
+    mempool.push_back(tx);
+    std::cout << "Transaction ajoutée : From " << tx.getFrom()
+              << " To " << tx.getTo()
+              << " Amount: " << tx.getAmount() << "\n";
+}
+
+void Blockchain::minePendingTransactions(size_t maxTx) {
+    if (mempool.empty()) return;
+    size_t txCount = std::min(maxTx, mempool.size());
+    std::string data;
+    for (size_t i = 0; i < txCount; ++i) {
+        const Transaction& tx = mempool[i];
+        data += "Transaction: From: " + tx.getFrom()
+              + " To: " + tx.getTo()
+              + " Amount: " + std::to_string(tx.getAmount()) + "\n";
+    }
+    int newIndex = chain.size();
+    std::string previousHash = chain.back().getHash();
+    Block newBlock(newIndex, data, previousHash);
+    newBlock.mineBlock(3);
+    chain.push_back(newBlock);
+    mempool.erase(mempool.begin(), mempool.begin() + txCount);
 }
