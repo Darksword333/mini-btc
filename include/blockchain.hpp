@@ -2,6 +2,7 @@
 #define BLOCKCHAIN_HPP
 
 #include "block.hpp"
+#include "consensus.hpp"
 #include "transaction.hpp"
 #include <vector>
 

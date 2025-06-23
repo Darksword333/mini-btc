@@ -43,7 +43,7 @@ void Blockchain::minePendingTransactions(size_t maxTx) {
     int newIndex = chain.size();
     std::string previousHash = chain.back().getHash();
     Block newBlock(newIndex, data, previousHash);
-    newBlock.mineBlock(3);
+    newBlock.mineBlock(MINING_DIFFICULTY);
     chain.push_back(newBlock);
     mempool.erase(mempool.begin(), mempool.begin() + txCount);
 }
