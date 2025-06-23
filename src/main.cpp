@@ -3,6 +3,7 @@
 #include "keypair.hpp"
 
 #include <iostream>
+#include <ctime>
 
 int main() {
     std::cout << "=== Initialisation de la Blockchain ===\n";
@@ -27,7 +28,11 @@ int main() {
     blockchain.addTransaction(tx2);
 
     std::cout << "\n=== Minage des transactions ===\n";
+    uint64_t before = static_cast<uint64_t>(std::time(nullptr));
     blockchain.minePendingTransactions();
+    uint64_t after = static_cast<uint64_t>(std::time(nullptr));
+    std::cout << "Temps de minage : " << (after - before) << " secondes\n";
+
 
     std::cout << "\n=== État actuel de la Blockchain ===\n";
     blockchain.print();

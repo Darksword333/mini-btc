@@ -1,8 +1,11 @@
 #ifndef CONSENSUS_HPP
 #define CONSENSUS_HPP
 
-#define COIN_MAX  1 000 000
-#define TRANSACTION_PER_BLOCK  100
+#define COIN_MAX  1000
+#define TRANSACTION_PER_BLOCK  10
 #define MINING_DIFFICULTY  5
+#define COINBASE_REWARD 10
+#define DIFFICULTY_ADJUST_INTERVAL 10 // every 10 block
+#define TARGET_BLOCK_TIME 600 // sec (10 min Bitcoin)
 
 #endif // CONSENSUS_HPP
