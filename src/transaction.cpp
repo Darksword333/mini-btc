@@ -1,4 +1,5 @@
 #include "transaction.hpp"
+#include "picosha2.h"
 #include <sstream>
 #include <cstdio>
 #include <ctime>
@@ -24,23 +25,9 @@ std::string Transaction::getHash() const{
     return hash;
 }
 
-// Fonction qui calcule un "hash" simplifié avec XOR bit à bit sur chaque caractère
 std::string Transaction::computeHash() const {
     std::string fullData = fromPublicKey+ toPublicKey + std::to_string(amount) + std::to_string(timestamp);
-
-    std::string hashHex;
-    hashHex.reserve(fullData.size() * 2);
-
-    for (size_t i = 0; i < fullData.size(); ++i) {
-        uint8_t xored = fullData[i] ^ fullData[(i + 1) % fullData.size()];
-
-        char buf[3]; // 2 pour les chiffres hex + 1 pour le '\0'
-        std::snprintf(buf, sizeof(buf), "%02x", xored);
-
-        hashHex.append(buf);
-    }
-
-    return hashHex;
+    return picosha2::hash256_hex_string(fullData);
 }
 
 void Transaction::print() const {

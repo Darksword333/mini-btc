@@ -1,4 +1,5 @@
 #include "block.hpp"
+#include "picosha2.h"
 #include <sstream>
 #include <cstdio>
 #include <ctime>
@@ -19,23 +20,9 @@ std::string Block::getHash() const {
     return hash;
 }
 
-// Fonction qui calcule un "hash" simplifié avec XOR bit à bit sur chaque caractère
 std::string Block::computeHash() const {
     std::string fullData = std::to_string(index) + data + previousHash + std::to_string(timestamp) + std::to_string(nonce);
-
-    std::string hashHex;
-    hashHex.reserve(fullData.size() * 2);
-
-    for (size_t i = 0; i < fullData.size(); ++i) {
-        uint8_t xored = fullData[i] ^ fullData[(i + 1) % fullData.size()];
-
-        char buf[3]; // 2 pour les chiffres hex + 1 pour le '\0'
-        std::snprintf(buf, sizeof(buf), "%02x", xored);
-
-        hashHex.append(buf);
-    }
-
-    return hashHex;
+    return picosha2::hash256_hex_string(fullData);
 }
 
 void Block::mineBlock(int difficulty) {
@@ -54,7 +41,6 @@ void Block::mineBlock(int difficulty) {
     }
     std::cout << "Block mined: " << hash << " (nonce = " << nonce << ")\n";
 }
-
 
 void Block::print() const {
     std::cout << "Index: " << index << "\n"
