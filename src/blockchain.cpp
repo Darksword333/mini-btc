@@ -1,5 +1,4 @@
 #include "blockchain.hpp"
-#include "transaction.hpp"
 #include <iostream>
 
 Blockchain::Blockchain() {
@@ -32,7 +31,7 @@ void Blockchain::addTransaction(const Transaction& tx) {
 
 void Blockchain::minePendingTransactions(size_t maxTx) {
     if (mempool.empty()) return;
-    size_t txCount = std::min(TRANSACTION_PER_BLOCK, mempool.size());
+    size_t txCount = std::min(static_cast<size_t>(TRANSACTION_PER_BLOCK), mempool.size());
     std::string data;
     for (size_t i = 0; i < txCount; ++i) {
         const Transaction& tx = mempool[i];
