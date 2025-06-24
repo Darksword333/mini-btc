@@ -17,6 +17,7 @@ public:
     const Block& getLastBlock() const;
     void print() const;
     void addTransaction(const Transaction& tx);
-    void minePendingTransactions(size_t maxTx = 5);
+    void minePendingTransactions(const std::string& minerAddress, size_t maxTx);
+    double getBalance(const std::string& publicKey) const;
 };
 #endif // BLOCKCHAIN_HPP

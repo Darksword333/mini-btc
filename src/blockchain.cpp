@@ -2,13 +2,13 @@
 #include <iostream>
 
 Blockchain::Blockchain() {
-    // Bloc Genesis : index 0, data = "Genesis", previous hash = "0"
-    chain.emplace_back(0, "Genesis Block", "0");
+    // Bloc Genesis
+    chain.emplace_back(0, "0");
 }
 
 void Blockchain::addBlock(const std::string& data) {
     const Block& prev = getLastBlock();
-    chain.emplace_back(prev.getIndex() + 1, data, prev.getHash());
+    chain.emplace_back(prev.getIndex() + 1, prev.getHash());
 }
 
 const Block& Blockchain::getLastBlock() const {
@@ -29,20 +29,25 @@ void Blockchain::addTransaction(const Transaction& tx) {
               << " Amount: " << tx.getAmount() << "\n";
 }
 
-void Blockchain::minePendingTransactions(size_t maxTx) {
+void Blockchain::minePendingTransactions(const std::string& minerAddress, size_t maxTx) {
     if (mempool.empty()) return;
-    size_t txCount = std::min(static_cast<size_t>(TRANSACTION_PER_BLOCK), mempool.size());
-    std::string data;
-    for (size_t i = 0; i < txCount; ++i) {
-        const Transaction& tx = mempool[i];
-        data += "Transaction: From: " + tx.getFrom()
-              + " To: " + tx.getTo()
-              + " Amount: " + std::to_string(tx.getAmount()) + "\n";
+
+    Block newBlock(getLastBlock().getIndex() + 1, getLastBlock().getHash());
+
+    Transaction rewardTx("MINING", minerAddress, MINING_REWARD);
+    newBlock.addTransaction(rewardTx);
+
+    size_t txCount = 0;
+    for (const Transaction& tx : mempool) {
+        if (txCount >= maxTx) break;
+        newBlock.addTransaction(tx);
+        ++txCount;
     }
-    int newIndex = chain.size();
-    std::string previousHash = chain.back().getHash();
-    Block newBlock(newIndex, data, previousHash);
+
     newBlock.mineBlock(MINING_DIFFICULTY);
     chain.push_back(newBlock);
+
     mempool.erase(mempool.begin(), mempool.begin() + txCount);
+
+    std::cout << "Bloc miné par " << minerAddress << " avec récompense de " << MINING_REWARD << "\n";
 }

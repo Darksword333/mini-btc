@@ -13,9 +13,11 @@ int main() {
     std::cout << "\n=== Génération de deux paires de clés ===\n";
     KeyPair key1;
     KeyPair key2;
+    KeyPair miner;
 
     std::string key1Public = key1.getPublicKey();
     std::string key2Public = key2.getPublicKey();
+    std::string minerPublic = miner.getPublicKey();
 
     std::cout << "Clé publique 1 : " << key1Public << "\n";
     std::cout << "Clé publique 2 : " << key2Public << "\n";
@@ -29,7 +31,7 @@ int main() {
 
     std::cout << "\n=== Minage des transactions ===\n";
     uint64_t before = static_cast<uint64_t>(std::time(nullptr));
-    blockchain.minePendingTransactions();
+    blockchain.minePendingTransactions(minerPublic, 5);
     uint64_t after = static_cast<uint64_t>(std::time(nullptr));
     std::cout << "Temps de minage : " << (after - before) << " secondes\n";
 
